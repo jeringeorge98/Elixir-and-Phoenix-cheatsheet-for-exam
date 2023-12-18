@@ -16,9 +16,9 @@ config :needforvelocity, Needforvelocity.Repo,
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :needforvelocity, NeedforvelocityWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
+  http: [ip: {127, 0, 0, 1}, port: 4001],
   secret_key_base: "h40dY8FM6OJPXdJoNAR+eWbiClpMfiyIEnRY4TXI3+ZGGqYxaxTmke8I5N6iv7Ta",
-  server: false
+  server: true
 
 # In test we don't send emails.
 config :needforvelocity, Needforvelocity.Mailer, adapter: Swoosh.Adapters.Test
@@ -31,3 +31,7 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Add the following lines at the end of the file
+config :hound, driver: "chrome_driver"
+config :needforvelocity, sql_sandbox: true

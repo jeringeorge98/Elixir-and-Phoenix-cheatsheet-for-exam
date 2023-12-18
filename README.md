@@ -37,3 +37,67 @@ This is the command for creating a table .
 >> mix phx.gen.html Accounts Racer racer racer_id:string speed:integer boost:integer risk:float points:integer
 
 
+
+
+
+## BDD
+
+## Setting up
+
+### Let us start by adding White bread to our project. To that end, we have to add the following to the file mix.exs.
+
+>  def project do
+    [
+      app: :takso,
+      ...
+      preferred_cli_env: ["white_bread.run": :test],  # Add this line
+      ...
+    ]
+  end
+
+  defp deps do
+    [
+      ...
+      {:gherkin, "~> 1.4.0"},  # Old gherkin dependency to ensure compatibility with white_bread
+      {:white_bread, "~> 4.5", only: [:test]}  # Latest white_bread dependency
+    ]
+  end
+
+>> {:hound, "~> 1.0"} # Setup Hound
+## Setup hound 
+>> config :takso, TaksoWeb.Endpoint,
+  http: [ip: {127, 0, 0, 1}, port: 4001],  # Be sure the port is 4001
+  server: true  # Change the `false` to `true`
+
+# Add the following lines at the end of the file
+config :hound, driver: "chrome_driver"
+config :takso, sql_sandbox: true 
+
+## create a context file and add the following code
+>> defmodule WhiteBreadContext do
+  use WhiteBread.Context
+  use Hound.Helpers
+  
+  feature_starting_state fn  ->
+    Application.ensure_all_started(:hound)
+    %{}
+  end
+  scenario_starting_state fn _state ->
+    Hound.start_session
+    %{}
+  end
+  scenario_finalize fn _status, _state -> 
+    Hound.end_session
+  end
+
+  # The skeleton of the steps would be here
+end
+
+Additional information available  [Handout 5](https://orlenyslp.gitlab.io/ASD/notes/lecture6/) 
+
+## Important commands
+
+>> mix white_bread.run
+
+
+
