@@ -1,0 +1,14 @@
+<.header>
+  New Fight
+</.header>
+
+<.simple_form :let={f} for={@changeset} action={~p"/fights"}>
+  <.error :if={@changeset.action}>
+      Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:pickup_address]} type="text" label="Pickup address" />
+  <.input field={f[:dropoff_address]} type="text" label="Dropoff address" />
+  <:actions>
+    <.button id="submit_button">Submit</.button>
+  </:actions>
+</.simple_form>
