@@ -1,4 +1,4 @@
-defmodule TestProject.TestHelpers do
+defmodule ExampleProject.TestHelpers do
   use Hound.Helpers
 
   defmacro __using__(_opts \\ []) do

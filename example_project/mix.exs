@@ -9,7 +9,8 @@ defmodule ExampleProject.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      preferred_cli_env: ["white_bread.run": :test],  # Add this line
     ]
   end
 

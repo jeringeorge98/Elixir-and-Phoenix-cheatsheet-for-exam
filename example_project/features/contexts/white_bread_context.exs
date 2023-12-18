@@ -65,10 +65,6 @@ defmodule WhiteBreadContext do
     end
   )
 
-  and_(~r/^I'm not logged in$/, fn state ->
-    {:ok, state}
-  end)
-
   and_(
     ~r/^I click on button "(?<button_text>[^"]+)"$/,
     fn state, %{button_text: button_text} ->
@@ -117,28 +113,18 @@ defmodule WhiteBreadContext do
     end
   )
 
-  and_(
-    ~r/^I click on pin "(?<pin_title>[^"]+)"$/,
-    fn state, %{pin_title: pin_title} ->
-      find_all_elements(:css, "#map div[aria-label=\"#{pin_title}\"]")
-      |> List.first()
-      |> scroll_click()
 
-      {:ok, state}
-    end
-  )
+  # and_(
+  #   ~r/^I\'m logged in as user "(?<username>[^"]+)" with password "(?<password>[^"]+)"$/,
+  #   fn state, %{username: username, password: password} ->
+  #     navigate_to("/sessions")
+  #     fill_field({:id, "username"}, username)
+  #     fill_field({:id, "password"}, password)
+  #     click(find_button_with_text("Log in"))
 
-  and_(
-    ~r/^I\'m logged in as user "(?<username>[^"]+)" with password "(?<password>[^"]+)"$/,
-    fn state, %{username: username, password: password} ->
-      navigate_to("/sessions")
-      fill_field({:id, "username"}, username)
-      fill_field({:id, "password"}, password)
-      click(find_button_with_text("Log in"))
-
-      {:ok, state}
-    end
-  )
+  #     {:ok, state}
+  #   end
+  # )
 
   then_(
     ~r/^the field "(?<field>[^"]+)" should have value "(?<value>[^"]+)"$/,
@@ -160,155 +146,59 @@ defmodule WhiteBreadContext do
     end
   )
 
-  given_(~r/^the following credentials$/, fn state, %{table_data: table} ->
-    table
-    |> Enum.map(fn user ->
-      User.changeset(
-        %User{},
-        user
-        |> Map.put(:date_of_birth, ~D[1990-01-01])
-        |> Map.put(
-          :location,
-          if Map.has_key?(user, :latitude) do
-            %Geo.Point{
-              coordinates:
-                {user.longitude |> String.to_float(), user.latitude |> String.to_float()},
-              srid: 4326
-            }
-          else
-            nil
-          end
-        )
-        |> Map.put(
-          :automatic_location,
-          if Map.has_key?(user, :automatic_location) do
-            user.automatic_location
-          else
-            false
-          end
-        )
-        |> Map.put(
-          :hates,
-          if Map.has_key?(user, :hates) do
-            Jason.decode!(user.hates)
-          else
-            []
-          end
-        )
-        |> Map.put(
-          :interests,
-          if Map.has_key?(user, :interests) do
-            Jason.decode!(user.interests)
-          else
-            []
-          end
-        )
-      )
-    end)
-    |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
-
-    {:ok, state}
-  end)
-
-  and_(
-    ~r/^the Browser Location mocked to be "(?<long>[^"]+)" N, "(?<lat>[^"]+)" E$/,
-    fn state, %{long: long, lat: lat} ->
-      execute_script("window.navigator.geolocation.getCurrentPosition = function(success) {
-      var position = {
-        'coords': {
-          'latitude': #{lat},
-          'longitude': #{long}
-        }
-      };
-      success(position);
-    }")
-      {:ok, state}
-    end
-  )
-
-  and_(~r/^the following events:$/, fn state, %{table_data: table} ->
+  and_(~r/^the following todos:$/, fn state, %{table_data: table} ->
     table
     |> Enum.map(fn row ->
-      owner = Models.get_user_by_username(row.owner)
-
-      event = %{
-        name: row.name,
+      todo = %{
+        title: row.title,
         description: row.description,
-        location: %Geo.Point{
-          coordinates: {row.longitude |> String.to_float(), row.latitude |> String.to_float()},
-          srid: 4326
-        },
-        owner_id: owner.id,
-        datetime: row.datetime,
-        ticket_price: row.ticket_price |> String.to_float(),
-        visibility: row.visibility,
-        topics: Jason.decode!(row.topics),
-        allowed_users:
-          if Map.has_key?(row, :allowed_users) do
-            Jason.decode!(row.allowed_users)
-          else
-            []
-          end
+        done: row.done
       }
 
-      Event.changeset(%Event{}, event)
+      MyTodo.changeset(%MyTodo{}, todo)
     end)
     |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
 
     {:ok, state}
   end)
 
-  and_(~r/^the following event interactions:$/, fn state, %{table_data: table} ->
-    table
-    |> Enum.map(fn row ->
-      user = Models.get_user_by_username(row.user_name)
-      event = Models.get_event_by_name(row.event_name)
 
-      event_interaction = %{
-        user_id: user.id,
-        event_id: event.id,
-        status: row.status
-      }
+  # and_(~r/^the following events:$/, fn state, %{table_data: table} ->
+  #   table
+  #   |> Enum.map(fn row ->
+  #     owner = Models.get_user_by_username(row.owner)
 
-      EventInteraction.changeset(%EventInteraction{}, event_interaction)
-    end)
-    |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
+  #     event = %{
+  #       name: row.name,
+  #       description: row.description,
+  #       location: %Geo.Point{
+  #         coordinates: {row.longitude |> String.to_float(), row.latitude |> String.to_float()},
+  #         srid: 4326
+  #       },
+  #       owner_id: owner.id,
+  #       datetime: row.datetime,
+  #       ticket_price: row.ticket_price |> String.to_float(),
+  #       visibility: row.visibility,
+  #       topics: Jason.decode!(row.topics),
+  #       allowed_users:
+  #         if Map.has_key?(row, :allowed_users) do
+  #           Jason.decode!(row.allowed_users)
+  #         else
+  #           []
+  #         end
+  #     }
 
-    {:ok, state}
-  end)
+  #     Event.changeset(%Event{}, event)
+  #   end)
+  #   |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
 
-  and_(~r/^given the following timeline entries$/, fn state, %{table_data: table} ->
-    table
-    |> Enum.map(fn row ->
-      TimelineEntry.changeset(%TimelineEntry{}, %{
-        for_user_id: Models.get_user_by_username(row.for_user).id,
-        description: row.description,
-        type: row.type
-      })
-    end)
-    |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
+  #   {:ok, state}
+  # end)
 
-    {:ok, state}
-  end)
 
-  given_(~r/^the following friend requests:$/, fn state, %{table_data: table} ->
-    table
-    |> Enum.map(fn row ->
-      sender = Models.get_user_by_username(row.sender)
-      reciever = Models.get_user_by_username(row.reciever)
 
-      friend_request = %{
-        sender_id: sender.id,
-        reciever_id: reciever.id,
-        status: row.status
-      }
 
-      FriendRequests.changeset(%FriendRequests{}, friend_request)
-    end)
-    |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
 
-    {:ok, state}
-  end)
 
   then_(
     ~r/^I should get the error message "(?<error_msg>[^"]+)"$/,
@@ -352,21 +242,6 @@ defmodule WhiteBreadContext do
     end
   )
 
-  then_(
-    ~r/^I should see "(?<pin_num>[^"]+)" pins$/,
-    fn state, %{pin_num: pin_num} ->
-      # This is a bit of hack to find the number of pins visible
-      assert length(
-               find_all_elements(
-                 :css,
-                 "#map img[src=\"https://maps.gstatic.com/mapfiles/transparent.png\"]"
-               )
-               # The users current location is a pin too
-             ) == String.to_integer(pin_num) + 1
-
-      {:ok, state}
-    end
-  )
 
   and_(
     ~r/^I select "(?<value>[^"]+)" in "(?<field>[^"]+)"$/,
@@ -377,11 +252,6 @@ defmodule WhiteBreadContext do
     end
   )
 
-  and_(~r/^I hover over Profile$/, fn state ->
-    find_element(:css, ".is-hoverable") |> click()
-
-    {:ok, state}
-  end)
 
   and_(~r/^I close flash$/, fn state ->
     find_element(:css, ".delete.close-flash") |> click()
