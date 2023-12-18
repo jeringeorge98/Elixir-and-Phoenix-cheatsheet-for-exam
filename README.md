@@ -74,7 +74,8 @@ config :hound, driver: "chrome_driver"
 config :takso, sql_sandbox: true 
 
 ## create a context file and add the following code
->> defmodule WhiteBreadContext do
+```elixir
+defmodule WhiteBreadContext do
   use WhiteBread.Context
   use Hound.Helpers
   
@@ -92,6 +93,7 @@ config :takso, sql_sandbox: true
 
   # The skeleton of the steps would be here
 end
+```
 
 Additional information available  [Handout 5](https://orlenyslp.gitlab.io/ASD/notes/lecture6/) 
 
