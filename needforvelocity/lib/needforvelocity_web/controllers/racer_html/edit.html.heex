@@ -1,0 +1,8 @@
+<.header>
+  Edit Racer <%= @racer.id %>
+  <:subtitle>Use this form to manage racer records in your database.</:subtitle>
+</.header>
+
+<.racer_form changeset={@changeset} action={~p"/racer/#{@racer}"} />
+
+<.back navigate={~p"/racer"}>Back to racer</.back>

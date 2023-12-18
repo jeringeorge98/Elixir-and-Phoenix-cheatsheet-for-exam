@@ -1,0 +1,27 @@
+<.header>
+  Listing Racer
+  <:actions>
+    <.link href={~p"/racer/new"}>
+      <.button>New Racer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="racer" rows={@racer_collection} row_click={&JS.navigate(~p"/racer/#{&1}")}>
+  <:col :let={racer} label="Racer"><%= racer.racer_id %></:col>
+  <:col :let={racer} label="Speed"><%= racer.speed %></:col>
+  <:col :let={racer} label="Boost"><%= racer.boost %></:col>
+  <:col :let={racer} label="Risk"><%= racer.risk %></:col>
+  <:col :let={racer} label="Points"><%= racer.points %></:col>
+  <:action :let={racer}>
+    <div class="sr-only">
+      <.link navigate={~p"/racer/#{racer}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/racer/#{racer}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={racer}>
+    <.link href={~p"/racer/#{racer}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

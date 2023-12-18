@@ -1,0 +1,19 @@
+<.header>
+  Racer <%= @racer.id %>
+  <:subtitle>This is a racer record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/racer/#{@racer}/edit"}>
+      <.button>Edit racer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Racer"><%= @racer.racer_id %></:item>
+  <:item title="Speed"><%= @racer.speed %></:item>
+  <:item title="Boost"><%= @racer.boost %></:item>
+  <:item title="Risk"><%= @racer.risk %></:item>
+  <:item title="Points"><%= @racer.points %></:item>
+</.list>
+
+<.back navigate={~p"/racer"}>Back to racer</.back>
