@@ -96,7 +96,12 @@ defmodule WhiteBreadContext do
 end
 ```
 
-Additional information available  [Handout 5](https://orlenyslp.gitlab.io/ASD/notes/lecture6/) 
+Additional information available  [Handout 5](https://orlenyslp.gitlab.io/ASD/notes/lecture6/)
+
+Additional information available  [Handout 4](https://orlenyslp.gitlab.io/ASD/notes/lecture5/)
+
+Additional information available  [Handout 6](https://orlenyslp.gitlab.io/ASD/notes/lecture7/)
+
 
 ## Important commands
 ~~~
