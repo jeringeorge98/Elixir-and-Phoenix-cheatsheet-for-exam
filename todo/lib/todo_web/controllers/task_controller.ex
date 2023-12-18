@@ -5,8 +5,12 @@ defmodule TodoWeb.TaskController do
   alias Todo.Tasks.Task
 
   def index(conn, _params) do
-    tasks = Tasks.list_tasks()
-    render(conn, :index, tasks: tasks)
+    changeset = Tasks.change_task(%Task{})
+    conn
+    |> assign(:changeset, changeset)
+    |> assign(:tasks, Tasks.list_tasks())
+    |> render("index.html")
+
   end
 
   def new(conn, _params) do
@@ -16,10 +20,10 @@ defmodule TodoWeb.TaskController do
 
   def create(conn, %{"task" => task_params}) do
     case Tasks.create_task(task_params) do
-      {:ok, task} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Task created successfully.")
-        |> redirect(to: ~p"/tasks/#{task}")
+        |> redirect(to: Routes.task_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new, changeset: changeset)
@@ -41,10 +45,10 @@ defmodule TodoWeb.TaskController do
     task = Tasks.get_task!(id)
 
     case Tasks.update_task(task, task_params) do
-      {:ok, task} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Task updated successfully.")
-        |> redirect(to: ~p"/tasks/#{task}")
+        |> redirect(to: Routes.task_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :edit, task: task, changeset: changeset)
