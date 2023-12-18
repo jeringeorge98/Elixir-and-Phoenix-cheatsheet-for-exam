@@ -1,0 +1,30 @@
+<div class="row">
+  <h1 class="column column-60 column-offset-20">
+    <header>
+      <%= render "form.html", Map.put(assigns, :action, Routes.task_path(@conn, :create)) %>
+    </header>
+    <.table id="tasks" rows={@tasks} row_click={&JS.navigate(~p"/tasks/#{&1}")}>
+      <tr>
+        <td>
+          <%= link to:  Routes.task_path(@conn, :complete,task) do %>
+            &#1004;
+            <% end %>
+        </td>
+     <td>
+      <:action :let={task}>
+        <div class="sr-only">
+          <.link navigate={~p"/tasks/#{task}"}>Show</.link>
+        </div>
+        <.link navigate={~p"/tasks/#{task}/edit"}>Edit</.link>
+      </:action>
+      <:action :let={task}>
+        <.link href={~p"/tasks/#{task}"} method="delete" data-confirm="Are you sure?">
+          Delete
+        </.link>
+      </:action>
+    </td>
+    </tr>
+    </.table>    
+  </h1>
+</div>
+
