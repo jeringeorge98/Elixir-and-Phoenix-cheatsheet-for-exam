@@ -1,0 +1,8 @@
+<.header>
+  New My todo
+  <:subtitle>Use this form to manage my_todo records in your database.</:subtitle>
+</.header>
+
+<.my_todo_form changeset={@changeset} action={~p"/my_todos"} />
+
+<.back navigate={~p"/my_todos"}>Back to my_todos</.back>

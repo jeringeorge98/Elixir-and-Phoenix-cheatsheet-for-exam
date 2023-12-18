@@ -18,7 +18,7 @@ config :example_project, ExampleProject.Repo,
 config :example_project, ExampleProjectWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "qsfBtiFiJPlZdNx7G8uywv5u1vBMA8YvMjqZCnjcROt9BnG2N5o30opVNkq9iIl6",
-  server: false
+  server: true
 
 # In test we don't send emails.
 config :example_project, ExampleProject.Mailer, adapter: Swoosh.Adapters.Test
@@ -31,3 +31,5 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+config :hound, driver: "chrome_driver"
+config :takso, sql_sandbox: true

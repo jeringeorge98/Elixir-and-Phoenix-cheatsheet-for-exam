@@ -1,0 +1,25 @@
+<.header>
+  Listing My todos
+  <:actions>
+    <.link href={~p"/my_todos/new"}>
+      <.button>New My todo</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="my_todos" rows={@my_todos} row_click={&JS.navigate(~p"/my_todos/#{&1}")}>
+  <:col :let={my_todo} label="Title"><%= my_todo.title %></:col>
+  <:col :let={my_todo} label="Description"><%= my_todo.description %></:col>
+  <:col :let={my_todo} label="Done"><%= my_todo.done %></:col>
+  <:action :let={my_todo}>
+    <div class="sr-only">
+      <.link navigate={~p"/my_todos/#{my_todo}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/my_todos/#{my_todo}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={my_todo}>
+    <.link href={~p"/my_todos/#{my_todo}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

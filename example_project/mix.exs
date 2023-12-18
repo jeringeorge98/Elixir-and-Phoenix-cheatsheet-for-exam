@@ -50,7 +50,12 @@ defmodule ExampleProject.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      # Old gherkin dependency to ensure compatibility with white_bread
+      {:gherkin, "~> 1.4.0"},
+      # Latest white_bread dependency
+      {:white_bread, "~> 4.5", only: [:test]},
+      {:hound, "~> 1.0"}
     ]
   end
 
