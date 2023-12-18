@@ -1,0 +1,18 @@
+<.header>
+  Race <%= @race.id %>
+  <:subtitle>This is a race record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/race/#{@race}/edit"}>
+      <.button>Edit race</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Distance"><%= @race.distance %></:item>
+  <:item title="Min risk"><%= @race.min_risk %></:item>
+  <:item title="Min points"><%= @race.min_points %></:item>
+  <:item title="Max points"><%= @race.max_points %></:item>
+</.list>
+
+<.back navigate={~p"/race"}>Back to race</.back>

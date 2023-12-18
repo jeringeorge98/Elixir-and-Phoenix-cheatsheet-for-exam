@@ -71,8 +71,8 @@ This is the command for creating a table .
   server: true  # Change the `false` to `true`
 
 # Add the following lines at the end of the file
-config :hound, driver: "chrome_driver"
-config :takso, sql_sandbox: true 
+> config :hound, driver: "chrome_driver"
+> config :"project_name", sql_sandbox: true 
 
 ## create a context file and add the following code
 ```elixir
@@ -100,7 +100,8 @@ Additional information available  [Handout 5](https://orlenyslp.gitlab.io/ASD/no
 
 ## Important commands
 
->> mix white_bread.run
-
+> mix white_bread.run
+> $env:MIX_ENV="test" ; mix ecto.create (windows users, in a Windows PowerShell terminal) or MIX_ENV=test mix ecto.create
+> mix ecto.gen.migration add_racer_name
 
 

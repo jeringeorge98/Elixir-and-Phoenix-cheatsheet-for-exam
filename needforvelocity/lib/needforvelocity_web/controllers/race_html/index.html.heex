@@ -1,0 +1,26 @@
+<.header>
+  Listing Race
+  <:actions>
+    <.link href={~p"/race/new"}>
+      <.button>New Race</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="race" rows={@race_collection} row_click={&JS.navigate(~p"/race/#{&1}")}>
+  <:col :let={race} label="Distance"><%= race.distance %></:col>
+  <:col :let={race} label="Min risk"><%= race.min_risk %></:col>
+  <:col :let={race} label="Min points"><%= race.min_points %></:col>
+  <:col :let={race} label="Max points"><%= race.max_points %></:col>
+  <:action :let={race}>
+    <div class="sr-only">
+      <.link navigate={~p"/race/#{race}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/race/#{race}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={race}>
+    <.link href={~p"/race/#{race}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

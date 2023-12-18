@@ -2,11 +2,12 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:racer_id]} type="text" label="Racer" />
+  <.input field={f[:racer_id]} type="text" label="Racer id" />
   <.input field={f[:speed]} type="number" label="Speed" />
   <.input field={f[:boost]} type="number" label="Boost" />
   <.input field={f[:risk]} type="number" label="Risk" step="any" />
   <.input field={f[:points]} type="number" label="Points" />
+  <.input field={f[:name]} type="text" label="Racer name" />
   <:actions>
     <.button>Save Racer</.button>
   </:actions>

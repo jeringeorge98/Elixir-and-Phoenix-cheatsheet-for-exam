@@ -18,6 +18,12 @@ defmodule NeedforvelocityWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/race/new", RaceController, :new
+    post "/race", RaceController, :create
+
+    get "/racer", RacerController, :new
+    post "/racer", RacerController, :create
+    get "/racer/:id", RacerController, :show
   end
 
   # Other scopes may use custom stacks.

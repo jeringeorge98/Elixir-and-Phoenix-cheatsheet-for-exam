@@ -21,4 +21,21 @@ defmodule Needforvelocity.AccountsFixtures do
 
     racer
   end
+
+  @doc """
+  Generate a race.
+  """
+  def race_fixture(attrs \\ %{}) do
+    {:ok, race} =
+      attrs
+      |> Enum.into(%{
+        distance: 120.5,
+        max_points: 42,
+        min_points: 42,
+        min_risk: 120.5
+      })
+      |> Needforvelocity.Accounts.create_race()
+
+    race
+  end
 end

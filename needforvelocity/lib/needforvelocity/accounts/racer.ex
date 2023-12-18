@@ -18,9 +18,22 @@ defmodule Needforvelocity.Accounts.Racer do
     racer
     |> cast(attrs, [:racer_id, :speed, :boost, :risk, :points, :name])
     |> validate_required([:racer_id, :speed, :boost, :risk, :points, :name])
-    |> validate_number(:speed, greater_than: 0, lesser_than: 200)
-    |> validate_number(:boost, greater_than_or_equal_to: 0, lesser_than: 200)
-    |> validate_number(:risk, greater_than_or_equal_to: 0.0, lesser_than_or_equal_to: 1.0)
+    |> validate_number(:speed, greater_than: 0, less_than: 200)
+    |> validate_number(:boost, greater_than_or_equal_to: 0, less_than: 200)
+    |> validate_number(:risk, greater_than_or_equal_to: 0.0, less_than_or_equal_to: 1.0)
+    |> validate_racer_id()
     |> unique_constraint(:racer_id)
+  end
+  def validate_racer_id(changeset) do
+    case get_field(changeset, :racer_id) do
+      nil ->
+        add_error(changeset, :racer_id, "can't be blank")
+      racer_id ->
+        if Regex.match?(~r/^[A-Z][0-9]{4}$/, racer_id) do
+          changeset
+        else
+          add_error(changeset, :racer_id, "is invalid")
+        end
+    end
   end
 end

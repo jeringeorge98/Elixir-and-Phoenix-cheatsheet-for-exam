@@ -1,0 +1,12 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:distance]} type="number" label="Distance" step="any" />
+  <.input field={f[:min_risk]} type="number" label="Min risk" step="any" />
+  <.input field={f[:min_points]} type="number" label="Min points" />
+  <.input field={f[:max_points]} type="number" label="Max points" />
+  <:actions>
+    <.button>Save Race</.button>
+  </:actions>
+</.simple_form>
