@@ -46,7 +46,8 @@ This is the command for creating a table .
 
 ### Let us start by adding White bread to our project. To that end, we have to add the following to the file mix.exs.
 
->  def project do
+ ``` elixir
+ def project do
     [
       app: :takso,
       ...
@@ -58,11 +59,11 @@ This is the command for creating a table .
   defp deps do
     [
       ...
-      {:gherkin, "~> 1.4.0"},  # Old gherkin dependency to ensure compatibility with white_bread
+      {:gherkin, "~> 1.4.0"},  
       {:white_bread, "~> 4.5", only: [:test]}  # Latest white_bread dependency
     ]
   end
-
+```
 >> {:hound, "~> 1.0"} # Setup Hound
 ## Setup hound 
 >> config :takso, TaksoWeb.Endpoint,
