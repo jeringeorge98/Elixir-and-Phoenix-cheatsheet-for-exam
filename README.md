@@ -99,9 +99,9 @@ end
 Additional information available  [Handout 5](https://orlenyslp.gitlab.io/ASD/notes/lecture6/) 
 
 ## Important commands
-
-> mix white_bread.run
-> $env:MIX_ENV="test" ; mix ecto.create (windows users, in a Windows PowerShell terminal) or MIX_ENV=test mix ecto.create
-> mix ecto.gen.migration add_racer_name
-
+~~~
+ mix white_bread.run
+ $env:MIX_ENV="test" ; mix ecto.create (windows users, in a Windows PowerShell terminal) or MIX_ENV=test mix ecto.create
+ mix ecto.gen.migration add_racer_name
+~~~
 
