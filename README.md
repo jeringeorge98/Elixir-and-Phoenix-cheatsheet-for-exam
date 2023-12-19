@@ -95,7 +95,50 @@ defmodule WhiteBreadContext do
   # The skeleton of the steps would be here
 end
 ```
+## Important things to remember for bdd
+```elixir
+  given_ ~r/^the user account$/, fn state, %{table_data: table} ->
+    table
+    |> Enum.map(fn user -> Users.changeset(%Users{}, user) end)
+    |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
+    {:ok, state}
+  end
+ ```
 
+```elixir 
+     fill_field({:id, "users_name"}, state[:name])
+    fill_field({:id, "users_email"}, state[:email])
+    fill_field({:id, "users_username"}, state[:username])
+    fill_field({:id, "users_password"}, state[:password])
+    fill_field({:id, "users_dob"}, state[:dob])
+    fill_field({:id, "users_phone_number"}, state[:phone_number])
+    fill_field({:id, "users_about_me"}, state[:about_me])
+    #fill_field({:id, "location_field"}, state[:current_location])
+    {:ok, state}
+  end 
+```
+```elixir
+  and_ ~r/^I want to provide "(?<name>[^"]+)", "(?<email>[^"]+)", "(?<username>[^"]+)", "(?<password>[^"]+)", "(?<dob>[^"]+)"$/,
+  fn state, %{name: name,
+              email: email,
+              username: username,
+              password: password,
+              dob: dob} ->
+    {:ok, state
+      |> Map.put(:name, name)
+      |> Map.put(:email, email)
+      |> Map.put(:username, username)
+      |> Map.put(:password, password)
+      |> Map.put(:dob, dob)
+    }
+  end
+```
+``` elixir
+ then_ ~r/^I should see my username$/, fn state ->
+    assert visible_in_page? ~r/#{state[:username]}/
+    {:ok, state}
+  end
+  ```
 Additional information available  [Handout 5](https://orlenyslp.gitlab.io/ASD/notes/lecture6/)
 
 Additional information available  [Handout 4](https://orlenyslp.gitlab.io/ASD/notes/lecture5/)
